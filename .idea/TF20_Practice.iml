@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/drillrod_src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/NLP" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Poker_master" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/ResNet" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/shellcase_bottom" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/MyModelBuild" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/WarheadClassification" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 3.7 (2_pycharm_tf20)" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
