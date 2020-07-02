@@ -113,3 +113,11 @@ print(n_concat_res)
 # print(a.shape)
 # a = a.reshape(1, 3, 2)
 # print(a.shape)
+# a = np.ones(24).reshape((6, 4))
+# b = np.ones(6).reshape((6, 1))
+# print(a + b)
+dir = r"C:\Users\Administrator\Desktop\2020.07.01__Sensofar测量数据\BULLET.dat"
+with open(dir, 'rb') as f:
+	lst = f.readlines()
+	print(len(lst))
+	print(lst[-1])

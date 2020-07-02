@@ -144,7 +144,7 @@ def get_accuracy_value(Y_hat, Y):
 def train(X, Y, nn_architecture, epochs, learning_rate, verbose=False, callback=None):
 	# initiation of neural net parameters
 	#params_values = init_layers(nn_architecture, 2)
-	params_values = creat_weight_bias(layer_list, X_train[0])
+	params_values = creat_weight_bias(layer_list, X)
 	# initiation of lists storing the history
 	# of metrics calculated during the learning process
 	cost_history = []
@@ -153,7 +153,7 @@ def train(X, Y, nn_architecture, epochs, learning_rate, verbose=False, callback=
 	# performing calculations for subsequent iterations
 	for i in range(epochs):
 		# step forward
-		Y_hat, cashe = full_backward_propagation(X, params_values, nn_architecture)
+		Y_hat, cashe = forward(X, params_values, nn_architecture)
 		
 		# calculating metrics and saving them in history
 		cost = get_cost_value(Y_hat, Y)
@@ -174,8 +174,7 @@ def train(X, Y, nn_architecture, epochs, learning_rate, verbose=False, callback=
 	
 	return params_values
 def main():
-	creat_weight_bias(layer_list, X_train[0])
-	all_out = all_forward(layer_list, X_train)
-	print(len(all_out))
+
+	print()
 if __name__ == '__main__':
     main()
