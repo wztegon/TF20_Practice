@@ -46,11 +46,11 @@ def load_two_labels_file_data(filenames):
 
 
 def sigmoid(Z):
-	if Z >= 0:  # 对sigmoid函数的优化，避免了出现极大的数据溢出
-		return 1.0 / (1 + np.exp(-Z))
-	else:
-		return np.exp(Z) / (1 + np.exp(Z))
-
+	# if Z >= 0:  # 对sigmoid函数的优化，避免了出现极大的数据溢出
+	# 	return 1.0 / (1 + np.exp(-Z))
+	# else:
+	# 	return np.exp(Z) / (1 + np.exp(Z))
+	return 1.0 / (1 + np.exp(-Z))
 def relu(Z):
 	return np.maximum(0, Z)
 
@@ -90,26 +90,26 @@ def creat_weight_bias(lst, input_shape):
 def forward(lst, sameples):
 	"""neure network forward compute"""
 
-	for sameple in sameples:
-		a_back = sameple.reshape(-1, 1)
+	#for sameple in sameples:
+	a_back = sameples.T
+	
+
+	for i, element in enumerate(lst):
+		Z = np.matmul(weight_lst[i], a_back) + bias_lst[i]
 		
+		#Z_single_layer.append(Z)
+		if activate_fun[i] == "relu":
+			a = relu(Z)
+		elif activate_fun[i] == "sigmoid":
+			a = sigmoid(Z)
+		else:
+			raise Exception('Non-supported activation function')
+		#A_single_layer.append(a)
+		a_back = a
 
-		for i, element in enumerate(lst):
-			Z = np.matmul(weight_lst[i], a_back) + bias_lst[i]
-			
-			#Z_single_layer.append(Z)
-			if activate_fun[i] == "relu":
-				a = relu(Z)
-			elif activate_fun[i] == "sigmoid":
-				a = sigmoid(Z)
-			else:
-				raise Exception('Non-supported activation function')
-			#A_single_layer.append(a)
-			a_back = a
-
-			
-			Z_all_layer.append(Z)
-			A_all_layer.append(a)
+		
+		Z_all_layer.append(Z)
+		A_all_layer.append(a)
 	
 
 def single_layer_backward(A_back, Z_curr, W_pre, dZ_pre, activate='relu'):
@@ -161,8 +161,8 @@ def full_backward(a_first, A, Y):
 		if i == 0:
 			A_back = a_first
 		else:
-			A_back = np.array(A_all_layer[i-1::6]).reshape(m, -1).T
-		Z_curr = np.array(Z_all_layer[i::6]).reshape(m, -1).T
+			A_back = np.array(A_all_layer[i-1]).reshape(m, -1).T
+		Z_curr = np.array(Z_all_layer[i]).reshape(m, -1).T
 
 		dZ_curr, dW_curr, db_curr = \
 			single_layer_backward(A_back, Z_curr, W_pre, dZ_pre, activate=activate_fun[i])
@@ -190,19 +190,23 @@ def train(input_datas, input_labels):
 	
 	for i in range(epochs):
 		forward(layer_neure_nums, input_datas)
-		a_last = np.array(A_all_layer[5::6]).reshape(m, -1).T
-	
+		a_last = np.array(A_all_layer[5]).reshape(m, -1).T
+		print("len A_all_layer :{}".format(len(A_all_layer[0][0])))
+		print("len Z_all_layer :{}".format(len(Z_all_layer[0][0])))
 		
 		full_backward(a_first, a_last, input_labels)
 		
 		cost = get_cost_value(a_last, input_labels)
 		accuracy = get_accuracy_value(a_last, input_labels)
 		print("Iteration: {:05} - cost: {:.5f} - accuracy: {:.5f}".format(i, cost, accuracy))
+
 		#清空本轮保存的Z和A
 		A_all_layer.clear()
 		Z_all_layer.clear()
 		
 def get_cost_value(Y_hat, Y):
+
+	
     # number of examples
     m = Y_hat.shape[1]
     print("m 的值：{}".format(m))
@@ -220,7 +224,11 @@ def convert_prob_into_class(probs):
     probs_[probs_ <= 0.5] = 0
     return probs_
 def train_tf(input_datas, input_labels):
-	""""""
+	"""
+	:param input_datas:
+	:param input_labels:
+	:return:
+	"""
 	import tensorflow as tf
 	model = tf.keras.Sequential([
 		tf.keras.layers.Dense(6, input_dim=3072,activation='relu'),
@@ -236,7 +244,6 @@ def train_tf(input_datas, input_labels):
 
 
 def main():
-
 	data_0, label_0, data_1, label_1 = load_two_labels_file_data([os.path.join(CIFAR_DIR, filename) for
 	                                          filename in ["data_batch_{}".format(i) for i in range(1, 6)]])
 	input_datas = np.concatenate([data_0, data_1], axis=0)

@@ -116,8 +116,22 @@ print(n_concat_res)
 # a = np.ones(24).reshape((6, 4))
 # b = np.ones(6).reshape((6, 1))
 # print(a + b)
-dir = r"C:\Users\Administrator\Desktop\2020.07.01__Sensofar测量数据\BULLET.dat"
-with open(dir, 'rb') as f:
-	lst = f.readlines()
-	print(len(lst))
-	print(lst[-1])
+# dir = r"C:\Users\Administrator\Desktop\2020.07.01__Sensofar测量数据\BULLET.dat"
+# with open(dir, 'rb') as f:
+# 	lst = f.readlines()
+# 	print(len(lst))
+# 	print(lst[-1])
+L = []
+l = []
+for _ in range(5):
+	for j in range(3):
+		l.append(j * _)
+	L.append(l)
+	l = []
+	
+print(len(L))
+print(L)
+a = np.array(L)
+print(a.shape)
+a_max1 = np.maximum(a, 1)
+print(a_max1)
