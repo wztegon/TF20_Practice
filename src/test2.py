@@ -121,17 +121,22 @@ print(n_concat_res)
 # 	lst = f.readlines()
 # 	print(len(lst))
 # 	print(lst[-1])
-L = []
-l = []
-for _ in range(5):
-	for j in range(3):
-		l.append(j * _)
-	L.append(l)
-	l = []
-	
-print(len(L))
-print(L)
-a = np.array(L)
-print(a.shape)
-a_max1 = np.maximum(a, 1)
-print(a_max1)
+# L = []
+# l = []
+# for _ in range(5):
+# 	for j in range(3):
+# 		l.append(j * _)
+# 	L.append(l)
+# 	l = []
+#
+# print(len(L))
+# print(L)
+# a = np.array(L)
+# print(a.shape)
+# a_max1 = np.maximum(a, 1)
+# print(a_max1)
+a = [1, 2, 3]
+a.append([(0, 0)])
+a[-1].append((2))
+print(a)
+print(a[-1][-1])

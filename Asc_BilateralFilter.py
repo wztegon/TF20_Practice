@@ -39,7 +39,7 @@ input_list = np.array(input_list, dtype=np.float32)
 input_nparray = np.array(input_list)
 input_nparray = (input_nparray - input_nparray.min())/(input_nparray.max() - input_nparray.min()) * 255
 #BilateralFilter
-bilateralFilter_img =  cv2.bilateralFilter(input_nparray, 30, 30, 50)
+bilateralFilter_img =  cv2.bilateralFilter(input_nparray, 3, 80, 80)
 print(bilateralFilter_img.max())
 print(bilateralFilter_img.min())
 #diff_img of input and bilateralfilter
