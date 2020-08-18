@@ -689,8 +689,7 @@ model.compile(optimizer=tf.keras.optimizers.RMSprop(0.001),
 # Trains for 5 epochs.
 model.fit(data, labels, batch_size=32, epochs=5)
 
-
-
+tf.feature_column.categorical_column_with_vocabulary_list()
 
 
 

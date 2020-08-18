@@ -1,7 +1,7 @@
 import numpy as np
 import _pickle as cPickle
 import os
-import matplotlib.pyplot as plt
+
 
 
 
@@ -13,8 +13,8 @@ bias_lst = []  # save each layer bias
 activate_fun = ["relu", "relu", "relu", "relu", "relu", "sigmoid"]
 Z_all_layer = []
 A_all_layer = []
-epochs = 100
-learn_rate = 0.01
+epochs = 1000
+learn_rate = 0.001
 
 def load_cifar_file(filename):
 	"""read dat from cifar file"""
@@ -50,7 +50,7 @@ def sigmoid(Z):
 	# 	return 1.0 / (1 + np.exp(-Z))
 	# else:
 	# 	return np.exp(Z) / (1 + np.exp(Z))
-	return 1.0 / (1 + np.exp(-Z))
+	return 1.0 / (1.0 + np.exp(-Z))
 def relu(Z):
 	return np.maximum(0, Z)
 
@@ -63,7 +63,7 @@ def sigmoid_backward(dA, Z):
 def relu_backward(dA, Z):
 	dZ = np.array(dA, copy=True)
 	dZ[Z <= 0] = 0;
-	return dZ;
+	return dZ
 
 
 def creat_weight_bias(lst, input_shape):
@@ -211,7 +211,8 @@ def get_cost_value(Y_hat, Y):
     m = Y_hat.shape[1]
     print("m 的值：{}".format(m))
     # calculation of the cost according to the formula
-    cost = (-1.0 / m) * (np.sum(Y* np.log(Y_hat)) + np.sum((1.0 - Y)* np.log(1.0 - Y_hat)))
+    cost = -1.0 / m * (np.sum(Y * np.log(Y_hat)) + np.sum((1.0 - Y) * np.log(1.0 - Y_hat)))
+    #cost = -1 / m * (np.dot(Y, np.log(Y_hat).T) + np.dot(1-Y, np.log(1- Y_hat).T))
     return cost
 
 def get_accuracy_value(Y_hat, Y):
@@ -220,9 +221,11 @@ def get_accuracy_value(Y_hat, Y):
 
 def convert_prob_into_class(probs):
     probs_ = np.copy(probs)
+    
     probs_[probs_ > 0.5] = 1
     probs_[probs_ <= 0.5] = 0
     return probs_
+
 def train_tf(input_datas, input_labels):
 	"""
 	:param input_datas:
@@ -250,11 +253,15 @@ def main():
 	input_labels = np.concatenate([label_0, label_1], axis=0)
 	# print(input_datas.shape)
 	# print(input_labels.shape)
-	
-	input_datas = input_datas/127.5 - 1
+	input_datas = input_datas.astype(np.float64)
+	input_labels = input_labels.astype(np.float64)
+	print(input_datas.dtype)
+	print(input_labels.dtype)
+	input_datas = input_datas/127.5 - 1.
 	p = np.random.permutation(input_labels.shape[0])
 	input_datas = input_datas[p]
 	input_labels = input_labels[p]
+	
 	#train_tf(input_datas, input_labels)
 	train(input_datas, input_labels.reshape(1, -1))
 	
